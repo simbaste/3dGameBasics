@@ -33,13 +33,13 @@ public class Platformer2DUserControl : MonoBehaviour
 		float jump = CrossPlatformInputManager.GetAxis ("Jump");
 		if (jump != 0 && allowJump) {
 			vg = 10;
-			allowJump = false;
 		}
 		if (!allowJump) {
 			anim.SetInteger ("State", 2);
 		}
 		vg -= gravity;
 		player.velocity = new Vector2 (h * speed, vg);
+		allowJump = false;
     }
 
 	private void Flip()
