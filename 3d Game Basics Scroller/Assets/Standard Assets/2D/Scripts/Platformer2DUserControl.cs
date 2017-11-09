@@ -54,7 +54,11 @@ public class Platformer2DUserControl : MonoBehaviour
 
 	void OnCollisionStay2D(Collision2D coll)
 	{
-		vg = 0;
-		allowJump = true;
+		if (coll.gameObject.CompareTag("Ground")) {
+			vg = 0;
+			allowJump = true;
+		} else if (coll.gameObject.CompareTag("Wall")) {
+			allowJump = true;
+		}
 	}
 }
