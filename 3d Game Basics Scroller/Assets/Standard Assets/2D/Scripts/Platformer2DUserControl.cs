@@ -8,36 +8,32 @@ public class Platformer2DUserControl : MonoBehaviour
 	public Rigidbody2D player;
 	public float speed;
 	public Animator	anim;
-	private float scrollSpeed = 0.015f;
+	private float scrollSpeed = 0.03f;
 	private float gravity = 0.4f;
 	private float vg = 0;
 	private bool  allowJump = false;
 	private bool facingRight = true;
 	private float h = 0;
-	private List<GameObject> patterns = new List<GameObject>();
 	private List<GameObject> level = new List<GameObject>();
 	public GameObject start;
-	public GameObject pattern1;
-	public GameObject pattern2;
-	public GameObject pattern3;
-	public GameObject pattern4;
+	public GameObject[] patterns;
+	public GameObject spikes;
 	private System.Random rnd = new System.Random();
 	private int last = 0;
 	private int score = 1;
+	private bool isStart = false;
+	private bool spike = false;
+	private bool die = false;
 
     private void Awake()
     {
 		player = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		GameObject tmp;
-		patterns.Add (pattern1);
-		patterns.Add (pattern2);
-		patterns.Add (pattern3);
-		patterns.Add (pattern4);
 
 		level.Add (Instantiate (start, start.transform.position, start.transform.rotation));
 		int i = 10;
-		int rand = rnd.Next (4);
+		int rand = rnd.Next (patterns.Length);
 		Vector3 vec;
 		while (level.Count < 3) {
 			vec = patterns[rand].transform.position;
@@ -46,9 +42,9 @@ public class Platformer2DUserControl : MonoBehaviour
 			level.Add (tmp);
 			i += 15;
 			last = rand;
-			rand = rnd.Next (4);
+			rand = rnd.Next (patterns.Length);
 			if (last == rand) {
-				rand = (last + 1) % patterns.Count;
+				rand = (last + 1) % patterns.Length;
 			}
 		}
     }
@@ -56,14 +52,25 @@ public class Platformer2DUserControl : MonoBehaviour
 
     private void Update()
     {
-		++score;
-		if (score % 1000 == 0) {
-			scrollSpeed += 0.002f;
+		if (!die) {
+			generate ();
+			if (isStart) {
+				++score;
+				if (score % 1000 == 0 && score < 10000) {
+					scrollSpeed += 0.003f;
+				}
+				scrollScreen ();
+				if (!spike) {
+					Vector3 vec = spikes.transform.position;
+					vec.x += 0.01f;
+					spikes.transform.position = vec;
+					if (vec.x >= 0.7f) {
+						spike = true;
+					}
+					}
+				}
+			moveAndAnimation ();
 		}
-		print (score);
-		generate ();
-		scrollScreen ();
-		moveAndAnimation ();
     }
 
 	private void moveAndAnimation()
@@ -71,6 +78,9 @@ public class Platformer2DUserControl : MonoBehaviour
 		h = CrossPlatformInputManager.GetAxis("Horizontal");
 		Flip ();
 		if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) {
+			if (!isStart) {
+				isStart	= true;
+			}
 			anim.SetInteger ("State", 1);
 		} else {
 			anim.SetInteger ("State", 0);
@@ -83,6 +93,9 @@ public class Platformer2DUserControl : MonoBehaviour
 		vg -= gravity;
 		player.velocity = new Vector2 (h * speed, vg);
 		allowJump = false;
+		if (player.position.y <= -10) {
+			die = true;
+		}
 	}
 
 	private void scrollScreen()
@@ -104,13 +117,14 @@ public class Platformer2DUserControl : MonoBehaviour
 		if (level [0].transform.position.x <= -15f) {
 			Destroy (level [0]);
 			level.RemoveAt (0);
-			int tmpRnd = rnd.Next (4);
+			int tmpRnd = rnd.Next (patterns.Length);
 			if (tmpRnd == last) {
-				tmpRnd = (last + 1) % patterns.Count;
+				tmpRnd = (last + 1) % patterns.Length;
 			}
 			last = tmpRnd;
 			Vector3 vec = level [level.Count - 1].transform.position;
 			vec.x += 15;
+			vec.y = patterns [tmpRnd].transform.position.y;
 			level.Add (Instantiate(patterns [tmpRnd], vec, level [level.Count - 1].transform.rotation));
 		}
 	}
@@ -127,11 +141,16 @@ public class Platformer2DUserControl : MonoBehaviour
 
 	void OnCollisionStay2D(Collision2D coll)
 	{
-		if (coll.gameObject.CompareTag("Ground")) {
+		if (coll.gameObject.CompareTag ("Ground")) {
 			vg = 0;
 			allowJump = true;
-		} else if (coll.gameObject.CompareTag("Wall")) {
+		} else if (coll.gameObject.CompareTag ("Wall")) {
 			allowJump = true;
+		} else if (coll.gameObject.CompareTag ("Ceil")) {
+			vg = 0;
+		} else if (coll.gameObject.CompareTag ("Obstacle")) {
+			die = true;
+			anim.SetInteger ("State", 3);
 		}
 	}
 }
