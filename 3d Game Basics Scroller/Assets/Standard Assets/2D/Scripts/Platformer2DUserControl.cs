@@ -18,12 +18,15 @@ public class Platformer2DUserControl : MonoBehaviour
 	public GameObject start;
 	public GameObject[] patterns;
 	public GameObject spikes;
+	public GameObject explode;
+	private List<GameObject> explodes = new List<GameObject>();
 	private System.Random rnd = new System.Random();
 	private int last = 0;
 	private int score = 1;
 	private bool isStart = false;
 	private bool spike = false;
 	private bool die = false;
+	private int bonus = 0;
 
     private void Awake()
     {
@@ -39,6 +42,8 @@ public class Platformer2DUserControl : MonoBehaviour
 			vec = patterns[rand].transform.position;
 			vec.x += i;
 			tmp = Instantiate (patterns[rand], vec, patterns[rand].transform.rotation);
+			GameObject star = tmp.transform.Find ("star").gameObject;
+			Destroy (star);
 			level.Add (tmp);
 			i += 15;
 			last = rand;
@@ -52,50 +57,58 @@ public class Platformer2DUserControl : MonoBehaviour
 
     private void Update()
     {
-		if (!die) {
-			generate ();
-			if (isStart) {
-				++score;
-				if (score % 1000 == 0 && score < 10000) {
-					scrollSpeed += 0.003f;
-				}
+		generate ();
+		if (isStart) {
+			++score;
+			if (score % 1000 == 0 && score < 10000) {
+				scrollSpeed += 0.005f;
+			}
+			if (!die) {
 				scrollScreen ();
-				if (!spike) {
-					Vector3 vec = spikes.transform.position;
-					vec.x += 0.01f;
-					spikes.transform.position = vec;
-					if (vec.x >= 0.7f) {
-						spike = true;
-					}
-					}
+			}
+			if (!spike) {
+				Vector3 vec = spikes.transform.position;
+				vec.x += 0.01f;
+				spikes.transform.position = vec;
+				if (vec.x >= 0.7f) {
+					spike = true;
 				}
-			moveAndAnimation ();
+			}
+		}
+		moveAndAnimation ();
+		if (bonus > 0) {
+			--bonus;
 		}
     }
 
 	private void moveAndAnimation()
 	{
-		h = CrossPlatformInputManager.GetAxis("Horizontal");
-		Flip ();
-		if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) {
-			if (!isStart) {
-				isStart	= true;
+		if (!die) {
+			h = CrossPlatformInputManager.GetAxis("Horizontal");
+			Flip ();
+			if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) {
+				if (!isStart) {
+					isStart	= true;
+				}
+				anim.SetInteger ("State", 1);
+			} else {
+				anim.SetInteger ("State", 0);
 			}
-			anim.SetInteger ("State", 1);
+			float jump = CrossPlatformInputManager.GetAxis ("Jump");
+			if (jump != 0 && allowJump) {
+				vg = 10;
+				anim.SetInteger ("State", 2);
+			}
+			vg -= gravity;
+			player.velocity = new Vector2 (h * speed, vg);
+			if (player.position.y <= -10) {
+				die = true;
+			}
 		} else {
-			anim.SetInteger ("State", 0);
+			vg -= gravity;
+			player.velocity = new Vector2 (0, vg);
 		}
-		float jump = CrossPlatformInputManager.GetAxis ("Jump");
-		if (jump != 0 && allowJump) {
-			vg = 10;
-			anim.SetInteger ("State", 2);
-		}
-		vg -= gravity;
-		player.velocity = new Vector2 (h * speed, vg);
 		allowJump = false;
-		if (player.position.y <= -10) {
-			die = true;
-		}
 	}
 
 	private void scrollScreen()
@@ -109,7 +122,12 @@ public class Platformer2DUserControl : MonoBehaviour
 			test.x -= scrollSpeed;
 			obj.transform.position = test;
 		}
-
+		foreach (GameObject obj in explodes)
+		{
+			Vector3 test = obj.transform.position;
+			test.x -= scrollSpeed;
+			obj.transform.position = test;
+		}
 	}
 
 	private void generate()
@@ -125,7 +143,16 @@ public class Platformer2DUserControl : MonoBehaviour
 			Vector3 vec = level [level.Count - 1].transform.position;
 			vec.x += 15;
 			vec.y = patterns [tmpRnd].transform.position.y;
-			level.Add (Instantiate(patterns [tmpRnd], vec, level [level.Count - 1].transform.rotation));
+			GameObject tmp = Instantiate(patterns [tmpRnd], vec, level [level.Count - 1].transform.rotation);
+			if (rnd.Next (5) != 0) {
+				GameObject star = tmp.transform.Find ("star").gameObject;
+				Destroy (star);
+			}
+			level.Add (tmp);
+		}
+		if (explodes.Count != 0 && explodes [0].transform.position.x <= -15f) {
+			Destroy (explodes [0]);
+			explodes.RemoveAt (0);
 		}
 	}
 
@@ -149,6 +176,19 @@ public class Platformer2DUserControl : MonoBehaviour
 		} else if (coll.gameObject.CompareTag ("Ceil")) {
 			vg = 0;
 		} else if (coll.gameObject.CompareTag ("Obstacle")) {
+			if (bonus > 0) {
+				Vector3 vec = coll.gameObject.transform.position;
+				vec.y += 0.5f;
+				explodes.Add (Instantiate (explode, vec, coll.gameObject.transform.rotation));
+				Destroy (coll.gameObject);
+			} else {
+				die = true;
+				anim.SetInteger ("State", 3);
+			}
+		} else if (coll.gameObject.CompareTag ("Star")) {
+			bonus = 1000;
+			Destroy (coll.gameObject);
+		} else if (coll.gameObject.CompareTag ("Death")) {
 			die = true;
 			anim.SetInteger ("State", 3);
 		}
