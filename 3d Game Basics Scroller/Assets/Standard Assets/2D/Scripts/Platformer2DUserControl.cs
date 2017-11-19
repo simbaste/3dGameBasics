@@ -19,6 +19,7 @@ public class Platformer2DUserControl : MonoBehaviour
 	public GameObject[] patterns;
 	public GameObject spikes;
 	public GameObject explode;
+	public GameObject explode_scie;
 	private List<GameObject> explodes = new List<GameObject>();
 	private System.Random rnd = new System.Random();
 	private int last = 0;
@@ -26,18 +27,25 @@ public class Platformer2DUserControl : MonoBehaviour
 	private bool isStart = false;
 	private bool spike = false;
 	private bool die = false;
-	private int bonus = 0;
+	private float bonus = 0;
+	private GameObject starIcon;
 
     private void Awake()
     {
 		player = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		GameObject tmp;
+		starIcon = player.transform.Find ("star").gameObject;
+
+		Vector3 vec = starIcon.transform.localScale;
+		vec.x = 0;
+		vec.y = 0;
+		starIcon.transform.localScale = vec;
+
 
 		level.Add (Instantiate (start, start.transform.position, start.transform.rotation));
 		int i = 10;
 		int rand = rnd.Next (patterns.Length);
-		Vector3 vec;
 		while (level.Count < 3) {
 			vec = patterns[rand].transform.position;
 			vec.x += i;
@@ -77,6 +85,10 @@ public class Platformer2DUserControl : MonoBehaviour
 		}
 		moveAndAnimation ();
 		if (bonus > 0) {
+			Vector3 tmp = starIcon.transform.localScale;
+			tmp.x = 8f * bonus / 1000f;
+			tmp.y = 7f * bonus / 1000f;
+			starIcon.transform.localScale = tmp;
 			--bonus;
 		}
     }
@@ -144,7 +156,7 @@ public class Platformer2DUserControl : MonoBehaviour
 			vec.x += 15;
 			vec.y = patterns [tmpRnd].transform.position.y;
 			GameObject tmp = Instantiate(patterns [tmpRnd], vec, level [level.Count - 1].transform.rotation);
-			if (rnd.Next (5) != 0) {
+			if (rnd.Next (4) != 0) {
 				GameObject star = tmp.transform.Find ("star").gameObject;
 				Destroy (star);
 			}
@@ -179,7 +191,11 @@ public class Platformer2DUserControl : MonoBehaviour
 			if (bonus > 0) {
 				Vector3 vec = coll.gameObject.transform.position;
 				vec.y += 0.5f;
-				explodes.Add (Instantiate (explode, vec, coll.gameObject.transform.rotation));
+				if (coll.gameObject.name == "tortle") {
+					explodes.Add (Instantiate (explode, vec, coll.gameObject.transform.rotation));
+				} else {
+					explodes.Add (Instantiate (explode_scie, vec, coll.gameObject.transform.rotation));
+				}
 				Destroy (coll.gameObject);
 			} else {
 				die = true;
