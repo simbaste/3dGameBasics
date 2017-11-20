@@ -2,13 +2,15 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Platformer2DUserControl : MonoBehaviour
 {
 	public Rigidbody2D player;
 	public float speed;
+	public Text scoreTxt;
 	public Animator	anim;
-	private float scrollSpeed = 0.03f;
+	private float scrollSpeed = 0.025f;
 	private float gravity = 0.4f;
 	private float vg = 0;
 	private bool  allowJump = false;
@@ -23,7 +25,7 @@ public class Platformer2DUserControl : MonoBehaviour
 	private List<GameObject> explodes = new List<GameObject>();
 	private System.Random rnd = new System.Random();
 	private int last = 0;
-	private int score = 1;
+	private int score = 0;
 	private bool isStart = false;
 	private bool spike = false;
 	private bool die = false;
@@ -32,8 +34,6 @@ public class Platformer2DUserControl : MonoBehaviour
 
     private void Awake()
     {
-		player = GetComponent<Rigidbody2D>();
-		anim = GetComponent<Animator>();
 		GameObject tmp;
 		starIcon = player.transform.Find ("star").gameObject;
 
@@ -60,6 +60,7 @@ public class Platformer2DUserControl : MonoBehaviour
 				rand = (last + 1) % patterns.Length;
 			}
 		}
+		scoreTxt.text = "Score: " + score;
     }
 
 
@@ -67,12 +68,13 @@ public class Platformer2DUserControl : MonoBehaviour
     {
 		generate ();
 		if (isStart) {
-			++score;
 			if (score % 1000 == 0 && score < 10000) {
 				scrollSpeed += 0.005f;
 			}
 			if (!die) {
+				scoreTxt.text = "Score: " + score;
 				scrollScreen ();
+				++score;
 			}
 			if (!spike) {
 				Vector3 vec = spikes.transform.position;
