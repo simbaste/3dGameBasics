@@ -53,7 +53,11 @@
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\GameManager.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\MainMenu.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\MenuScript.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\MovingPlatform.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\MovingTortle.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Platformer2DUserControl.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Restarter.cs" />
      <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
