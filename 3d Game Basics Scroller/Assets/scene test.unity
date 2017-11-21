@@ -1498,7 +1498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 991966348}
-  speed: 10
+  speed: 8
   scoreTxt: {fileID: 898645128}
   anim: {fileID: 991966344}
   start: {fileID: 1800936219027402, guid: d7c5f466fd63f65468cf52fc75f7f462, type: 2}
@@ -1515,7 +1515,7 @@ MonoBehaviour:
   - {fileID: 1021370715352300, guid: 979b9008eb5bfe34ea147e3ed69a6cf2, type: 2}
   spikes: {fileID: 1342407288}
   explode: {fileID: 1802675148851768, guid: b3f5fdbc9eb5cd84b90c19955a1810fa, type: 2}
-  explode_scie: {fileID: 1801566065561776, guid: a64fb02d93083f341b0e2272752582c9,
+  explode_scie: {fileID: 1129255771522634, guid: 1f557b841d9cef748934ef200bd28fcf,
     type: 2}
 --- !u!50 &991966348
 Rigidbody2D:

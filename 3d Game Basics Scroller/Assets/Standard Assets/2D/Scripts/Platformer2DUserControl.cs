@@ -98,9 +98,14 @@ public class Platformer2DUserControl : MonoBehaviour
 	private void moveAndAnimation()
 	{
 		if (!die) {
-			h = CrossPlatformInputManager.GetAxis("Horizontal");
 			Flip ();
-			if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) {
+			h = 0;
+			if (Input.GetKey (GameManager.GM.right)) {
+				h = 1;
+			} else if (Input.GetKey (GameManager.GM.left)) {
+				h = -1;
+			}
+			if (Input.GetKey(GameManager.GM.left) || Input.GetKey(GameManager.GM.right)) {
 				if (!isStart) {
 					isStart	= true;
 				}
@@ -108,8 +113,7 @@ public class Platformer2DUserControl : MonoBehaviour
 			} else {
 				anim.SetInteger ("State", 0);
 			}
-			float jump = CrossPlatformInputManager.GetAxis ("Jump");
-			if (jump != 0 && allowJump) {
+			if (Input.GetKey (GameManager.GM.jump) && allowJump) {
 				vg = 10;
 				anim.SetInteger ("State", 2);
 			}
@@ -172,7 +176,7 @@ public class Platformer2DUserControl : MonoBehaviour
 
 	private void Flip()
 	{
-		if ((h > 0f && !facingRight) || (h < 0f && facingRight)) {
+		if ((Input.GetKey(GameManager.GM.right) && !facingRight) || (Input.GetKey(GameManager.GM.left) && facingRight)) {
 			facingRight = !facingRight;
 			Vector3 tmp = transform.localScale;
 			tmp.x *= -1;
