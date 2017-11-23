@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager GM;
 
+	public bool pause { get; set; }
+
 	public KeyCode jump { get; set; }
 	public KeyCode forward { get; set; }
 	public KeyCode backward { get; set; }
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour {
 			Destroy (gameObject);
 			//GM = this;
 		}
+		pause = true;
 		jump = (KeyCode)System.Enum.Parse (typeof(KeyCode), PlayerPrefs.GetString ("jumpKey", "Space"));
 		forward = (KeyCode)System.Enum.Parse (typeof(KeyCode), PlayerPrefs.GetString ("forwardKey", "W"));
 		backward = (KeyCode)System.Enum.Parse (typeof(KeyCode), PlayerPrefs.GetString ("backwardKey", "S"));

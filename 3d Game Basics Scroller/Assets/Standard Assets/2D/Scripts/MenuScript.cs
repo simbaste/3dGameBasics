@@ -40,14 +40,17 @@ public class MenuScript : MonoBehaviour {
 				optionsPanel.gameObject.SetActive (false);
 			}
 			menuPanel.gameObject.SetActive (true);
+			GameManager.GM.pause = true;
 		} else if (Input.GetKeyDown (KeyCode.Escape) && optionsPanel.gameObject.activeSelf) {
 			optionsPanel.gameObject.SetActive (false);
 			menuPanel.gameObject.SetActive (true);
+			GameManager.GM.pause = true;
 		}
 	}
 
 	public void StartGame() {
 		menuPanel.gameObject.SetActive (false);
+		GameManager.GM.pause = false;
 	}
 
 	public void OptionsGame() {
