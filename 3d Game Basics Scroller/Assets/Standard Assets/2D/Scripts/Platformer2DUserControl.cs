@@ -66,32 +66,34 @@ public class Platformer2DUserControl : MonoBehaviour
 
     private void Update()
     {
-		generate ();
-		if (isStart) {
-			if (score % 1000 == 0 && score < 10000) {
-				scrollSpeed += 0.005f;
-			}
-			if (!die) {
-				scoreTxt.text = "Score: " + score;
-				scrollScreen ();
-				++score;
-			}
-			if (!spike) {
-				Vector3 vec = spikes.transform.position;
-				vec.x += 0.01f;
-				spikes.transform.position = vec;
-				if (vec.x >= 0.7f) {
-					spike = true;
+		if (!GameManager.GM.pause) {
+			generate ();
+			if (isStart) {
+				if (score % 1000 == 0 && score < 10000) {
+					scrollSpeed += 0.005f;
+				}
+				if (!die) {
+					scoreTxt.text = "Score: " + score;
+					scrollScreen ();
+					++score;
+				}
+				if (!spike) {
+					Vector3 vec = spikes.transform.position;
+					vec.x += 0.01f;
+					spikes.transform.position = vec;
+					if (vec.x >= 0.7f) {
+						spike = true;
+					}
 				}
 			}
-		}
-		moveAndAnimation ();
-		if (bonus > 0) {
-			Vector3 tmp = starIcon.transform.localScale;
-			tmp.x = 8f * bonus / 1000f;
-			tmp.y = 7f * bonus / 1000f;
-			starIcon.transform.localScale = tmp;
-			--bonus;
+			moveAndAnimation ();
+			if (bonus > 0) {
+				Vector3 tmp = starIcon.transform.localScale;
+				tmp.x = 8f * bonus / 1000f;
+				tmp.y = 7f * bonus / 1000f;
+				starIcon.transform.localScale = tmp;
+				--bonus;
+			}
 		}
     }
 
