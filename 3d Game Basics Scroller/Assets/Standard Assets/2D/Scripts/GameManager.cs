@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
 			GM = this;
 		} else if (GM != this) {
 			Destroy (gameObject);
-			//GM = this;
+			GM = this;
 		}
 		pause = true;
 		jump = (KeyCode)System.Enum.Parse (typeof(KeyCode), PlayerPrefs.GetString ("jumpKey", "Space"));

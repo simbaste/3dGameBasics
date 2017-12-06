@@ -22,6 +22,12 @@ public class MenuScript : MonoBehaviour {
 		scorePanel.gameObject.SetActive (false);
 		waitingForKey = false;
 
+		if (menuPanel.gameObject.activeSelf) {
+			FindObjectOfType<AudioManager> ().Play ("MainMenu");
+			FindObjectOfType<AudioManager> ().Stop ("Menu");
+			FindObjectOfType<AudioManager> ().Stop ("GameSound");
+		}
+
 		for (int i = 0; i < 5; i++) {
 			if (optionsPanel.GetChild (i).name == "ForwardKey") {
 				optionsPanel.GetChild (i).GetComponentInChildren<Text> ().text = GameManager.GM.forward.ToString ();
@@ -43,9 +49,15 @@ public class MenuScript : MonoBehaviour {
 				optionsPanel.gameObject.SetActive (false);
 				scorePanel.gameObject.SetActive (false);
 			}
+			FindObjectOfType<AudioManager> ().Play ("MainMenu");
+			FindObjectOfType<AudioManager> ().Stop ("Menu");
+			FindObjectOfType<AudioManager> ().Stop ("GameSound");
 			menuPanel.gameObject.SetActive (true);
 			GameManager.GM.pause = true;
 		} else if (Input.GetKeyDown (KeyCode.Escape) && (optionsPanel.gameObject.activeSelf || scorePanel.gameObject.activeSelf)) {
+			FindObjectOfType<AudioManager> ().Play ("MainMenu");
+			FindObjectOfType<AudioManager> ().Stop ("Menu");
+			FindObjectOfType<AudioManager> ().Stop ("GameSound");
 			optionsPanel.gameObject.SetActive (false);
 			scorePanel.gameObject.SetActive (false);
 			menuPanel.gameObject.SetActive (true);
@@ -54,16 +66,22 @@ public class MenuScript : MonoBehaviour {
 	}
 
 	public void StartGame() {
+		FindObjectOfType<AudioManager> ().Stop ("MainMenu");
+		FindObjectOfType<AudioManager> ().Play ("GameSound");
 		menuPanel.gameObject.SetActive (false);
 		GameManager.GM.pause = false;
 	}
 
 	public void OptionsGame() {
+		FindObjectOfType<AudioManager> ().Stop ("MainMenu");
+		FindObjectOfType<AudioManager> ().Play ("Menu");
 		optionsPanel.gameObject.SetActive (true);
 		menuPanel.gameObject.SetActive (false);
 	}
 
 	public void ScoreGame() {
+		FindObjectOfType<AudioManager> ().Stop ("MainMenu");
+		FindObjectOfType<AudioManager> ().Play ("Menu");
 		scorePanel.gameObject.SetActive (true);
 		menuPanel.gameObject.SetActive (false);
 	}

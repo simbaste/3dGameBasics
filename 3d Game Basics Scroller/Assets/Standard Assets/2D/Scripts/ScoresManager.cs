@@ -64,12 +64,15 @@ public class ScoresManager : MonoBehaviour {
 		Scores.Sort ();
 	}
 
-	private void InsertScore(int newScore) {
+	public void InsertScore(int newScore) {
 		using (IDbConnection dbConnection = new SqliteConnection(connectionString)) {
 			dbConnection.Open ();
 
 			using (IDbCommand dbCmd = dbConnection.CreateCommand()) {
-				string sqlQuery = string.Format("INSERT INTO Scores(Score) VALUE({0})", newScore);
+				string sqlQuery = string.Format("INSERT INTO Scores(Score) VALUES({0})", newScore);
+				Debug.Log ("sqlQuery = " + sqlQuery);
+				sqlQuery = "INSERT INTO Scores(Score) VALUES("+newScore+")";		
+				Debug.Log ("sqlQuery = " + sqlQuery);
 				dbCmd.CommandText = sqlQuery;
 				dbCmd.ExecuteScalar ();
 				dbConnection.Close ();

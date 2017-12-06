@@ -330,6 +330,89 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 111171346}
+--- !u!1 &281543060
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 281543062}
+  - component: {fileID: 281543061}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &281543061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 281543060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a099295238cbdaa4d908ca374054ea7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: PlayerDead
+    clip: {fileID: 8300000, guid: e5f4d0f81197a2f44a21eeb66b24e2e5, type: 3}
+    volume: 0.4
+    pitch: 0.83
+    loop: 0
+    source: {fileID: 0}
+  - name: Bonus
+    clip: {fileID: 8300000, guid: 5bbc2f4fe83c0cf42a5cc67c5ea88852, type: 3}
+    volume: 0.4
+    pitch: 0.82
+    loop: 0
+    source: {fileID: 0}
+  - name: Explosion
+    clip: {fileID: 8300000, guid: e52e2b2c11d1033478c091697af4c522, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: GameSound
+    clip: {fileID: 8300000, guid: 6544596da49ae7142a45f1b320a3b7a6, type: 3}
+    volume: 0.4
+    pitch: 0.68
+    loop: 1
+    source: {fileID: 0}
+  - name: GameOver
+    clip: {fileID: 8300000, guid: cad9ff865e56d3a49b2a1115dbb6c78d, type: 3}
+    volume: 0.4
+    pitch: 0.83
+    loop: 0
+    source: {fileID: 0}
+  - name: MainMenu
+    clip: {fileID: 8300000, guid: 0cf3e4fdab45f9d44ac486b1b6598d0a, type: 3}
+    volume: 0.4
+    pitch: 0.92
+    loop: 1
+    source: {fileID: 0}
+  - name: Menu
+    clip: {fileID: 8300000, guid: 9ce5ee60f07fd7f4a9d8da08f6e65d5a, type: 3}
+    volume: 0.4
+    pitch: 0.88
+    loop: 1
+    source: {fileID: 0}
+--- !u!4 &281543062
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 281543060}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 460.12595, y: 323.22495, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &311887406
 GameObject:
   m_ObjectHideFlags: 0
