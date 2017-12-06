@@ -62,3 +62,5 @@ C:\Users\SIMBA\3D_Game_Basics\3dGameBasics\3d Game Basics Scroller\Temp\bin\Debu
 C:\Users\SIMBA\3D_Game_Basics\3dGameBasics\3d Game Basics Scroller\obj\Debug\Assembly-CSharp-firstpass.csprojResolveAssemblyReference.cache
 C:\Users\SIMBA\3D_Game_Basics\3dGameBasics\3d Game Basics Scroller\obj\Debug\Assembly-CSharp-firstpass.dll
 C:\Users\SIMBA\3D_Game_Basics\3dGameBasics\3d Game Basics Scroller\obj\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\SIMBA\3D_Game_Basics\3dGameBasics\3d Game Basics Scroller\Temp\bin\Debug\Mono.Data.Sqlite.dll
+C:\Users\SIMBA\3D_Game_Basics\3dGameBasics\3d Game Basics Scroller\Temp\bin\Debug\System.Data.dll

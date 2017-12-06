@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MenuScript : MonoBehaviour {
 
 	Transform optionsPanel;
+	Transform scorePanel;
 	Transform menuPanel;
 	Event keyEvent;
 	Text buttonText;
@@ -16,7 +17,9 @@ public class MenuScript : MonoBehaviour {
 	void Start () {
 		menuPanel = transform.Find ("MainMenu");
 		optionsPanel = transform.Find ("OptionsMenu");
+		scorePanel = transform.Find ("ScoreMenu");
 		optionsPanel.gameObject.SetActive (false);
+		scorePanel.gameObject.SetActive (false);
 		waitingForKey = false;
 
 		for (int i = 0; i < 5; i++) {
@@ -36,13 +39,15 @@ public class MenuScript : MonoBehaviour {
 
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Escape) && !menuPanel.gameObject.activeSelf) {
-			if (optionsPanel.gameObject.activeSelf) {
+			if (optionsPanel.gameObject.activeSelf || scorePanel.gameObject.activeSelf) {
 				optionsPanel.gameObject.SetActive (false);
+				scorePanel.gameObject.SetActive (false);
 			}
 			menuPanel.gameObject.SetActive (true);
 			GameManager.GM.pause = true;
-		} else if (Input.GetKeyDown (KeyCode.Escape) && optionsPanel.gameObject.activeSelf) {
+		} else if (Input.GetKeyDown (KeyCode.Escape) && (optionsPanel.gameObject.activeSelf || scorePanel.gameObject.activeSelf)) {
 			optionsPanel.gameObject.SetActive (false);
+			scorePanel.gameObject.SetActive (false);
 			menuPanel.gameObject.SetActive (true);
 			GameManager.GM.pause = true;
 		}
@@ -55,6 +60,11 @@ public class MenuScript : MonoBehaviour {
 
 	public void OptionsGame() {
 		optionsPanel.gameObject.SetActive (true);
+		menuPanel.gameObject.SetActive (false);
+	}
+
+	public void ScoreGame() {
+		scorePanel.gameObject.SetActive (true);
 		menuPanel.gameObject.SetActive (false);
 	}
 		
