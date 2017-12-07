@@ -15,13 +15,14 @@ public class Platformer2DUserControl : MonoBehaviour
 	private float vg = 0;
 	private bool  allowJump = false;
 	private bool facingRight = true;
-	private float h = 0;
 	private List<GameObject> level = new List<GameObject>();
 	public GameObject start;
 	public GameObject[] patterns;
 	public GameObject spikes;
 	public GameObject explode;
 	public GameObject explode_scie;
+	public GameObject gameover;
+	public Text scoreGameOver;
 	private List<GameObject> explodes = new List<GameObject>();
 	private System.Random rnd = new System.Random();
 	private int last = 0;
@@ -31,9 +32,15 @@ public class Platformer2DUserControl : MonoBehaviour
 	private bool die = false;
 	private float bonus = 0;
 	private GameObject starIcon;
+	private float vh = 0;
+	private int tempoDie = 0;
+	private Vector3 spikeX;
+	private Vector3 playerX;
 
     private void Awake()
     {
+		spikeX = spikes.transform.position;
+		playerX = player.transform.position;
 		GameObject tmp;
 		starIcon = player.transform.Find ("star").gameObject;
 
@@ -73,15 +80,15 @@ public class Platformer2DUserControl : MonoBehaviour
 					scrollSpeed += 0.005f;
 				}
 				if (!die) {
+					++score;
 					scoreTxt.text = "Score: " + score;
 					scrollScreen ();
-					++score;
 				}
 				if (!spike) {
 					Vector3 vec = spikes.transform.position;
 					vec.x += 0.01f;
 					spikes.transform.position = vec;
-					if (vec.x >= 0.7f) {
+					if (vec.x >= -1.0f) {
 						spike = true;
 					}
 				}
@@ -101,11 +108,14 @@ public class Platformer2DUserControl : MonoBehaviour
 	{
 		if (!die) {
 			Flip ();
-			h = 0;
 			if (Input.GetKey (GameManager.GM.right)) {
-				h = 1;
+				if (vh < 1.0f) {
+					vh += 0.25f;
+				}
 			} else if (Input.GetKey (GameManager.GM.left)) {
-				h = -1;
+				if (vh > -1.0f) {
+					vh -= 0.25f;
+				}
 			}
 			if (Input.GetKey(GameManager.GM.left) || Input.GetKey(GameManager.GM.right)) {
 				if (!isStart) {
@@ -113,6 +123,7 @@ public class Platformer2DUserControl : MonoBehaviour
 				}
 				anim.SetInteger ("State", 1);
 			} else {
+				vh = 0;
 				anim.SetInteger ("State", 0);
 			}
 			if (Input.GetKey (GameManager.GM.jump) && allowJump) {
@@ -120,16 +131,74 @@ public class Platformer2DUserControl : MonoBehaviour
 				anim.SetInteger ("State", 2);
 			}
 			vg -= gravity;
-			player.velocity = new Vector2 (h * speed, vg);
+			player.velocity = new Vector2 (vh * speed, vg);
 			if (player.position.y <= -10) {
 				die = true;
 				FindObjectOfType<AudioManager> ().Stop ("GameSound");
 				FindObjectOfType<AudioManager> ().Play ("PlayerDead");
 				FindObjectOfType<ScoresManager> ().InsertScore (score);
 			}
-		} else {
+		} else if (tempoDie < 110) {
 			vg -= gravity;
 			player.velocity = new Vector2 (0, vg);
+			++tempoDie;
+			if (tempoDie == 110) {
+				scoreTxt.gameObject.SetActive (false);
+				scoreGameOver.text = score.ToString ();
+				scoreGameOver.gameObject.SetActive (true);
+				gameover.SetActive (true);
+				FindObjectOfType<AudioManager> ().Play ("GameOver");
+			}
+		} else if (Input.GetKey (KeyCode.Escape)) {
+			score = 0;
+			scoreTxt.gameObject.SetActive (true);
+			scoreGameOver.gameObject.SetActive (false);
+			gameover.SetActive (false);
+			FindObjectOfType<AudioManager> ().Stop ("GameOver");
+			FindObjectOfType<AudioManager> ().Play ("GameSound");
+
+			while (level.Count != 0) {
+				Destroy (level [0]);
+				level.RemoveAt (0);
+			}
+			while (explodes.Count != 0) {
+				Destroy (explodes [0]);
+				explodes.RemoveAt (0);
+			}
+			spikes.transform.position = spikeX;
+			player.transform.position = playerX;
+			spike = false;
+			die = false;
+			isStart = false;
+			allowJump = false;
+			facingRight = true;
+		
+			GameObject tmp;
+			Vector3 vec = starIcon.transform.localScale;
+			vec.x = 0;
+			vec.y = 0;
+			starIcon.transform.localScale = vec;
+
+
+			level.Add (Instantiate (start, start.transform.position, start.transform.rotation));
+			int i = 10;
+			int rand = rnd.Next (patterns.Length);
+			while (level.Count < 3) {
+				vec = patterns[rand].transform.position;
+				vec.x += i;
+				tmp = Instantiate (patterns[rand], vec, patterns[rand].transform.rotation);
+				GameObject star = tmp.transform.Find ("star").gameObject;
+				Destroy (star);
+				level.Add (tmp);
+				i += 15;
+				last = rand;
+				rand = rnd.Next (patterns.Length);
+				if (last == rand) {
+					rand = (last + 1) % patterns.Length;
+				}
+			}
+			scoreTxt.text = "Score: " + score;
+			tempoDie = 0;
 		}
 		allowJump = false;
 	}
@@ -155,7 +224,7 @@ public class Platformer2DUserControl : MonoBehaviour
 
 	private void generate()
 	{
-		if (level [0].transform.position.x <= -15f) {
+		if (level [0].transform.position.x <= -25f) {
 			Destroy (level [0]);
 			level.RemoveAt (0);
 			int tmpRnd = rnd.Next (patterns.Length);
@@ -167,13 +236,13 @@ public class Platformer2DUserControl : MonoBehaviour
 			vec.x += 15;
 			vec.y = patterns [tmpRnd].transform.position.y;
 			GameObject tmp = Instantiate(patterns [tmpRnd], vec, level [level.Count - 1].transform.rotation);
-			if (rnd.Next (4) != 0) {
+			if (rnd.Next (3) != 0) {
 				GameObject star = tmp.transform.Find ("star").gameObject;
 				Destroy (star);
 			}
 			level.Add (tmp);
 		}
-		if (explodes.Count != 0 && explodes [0].transform.position.x <= -15f) {
+		if (explodes.Count != 0 && explodes [0].transform.position.x <= -25f) {
 			Destroy (explodes [0]);
 			explodes.RemoveAt (0);
 		}
@@ -207,8 +276,9 @@ public class Platformer2DUserControl : MonoBehaviour
 				} else {
 					explodes.Add (Instantiate (explode_scie, vec, coll.gameObject.transform.rotation));
 				}
+				FindObjectOfType<AudioManager> ().Play ("Explosion");
 				Destroy (coll.gameObject);
-			} else {
+			} else if (!die) {
 				die = true;
 				FindObjectOfType<AudioManager> ().Stop ("GameSound");
 				FindObjectOfType<AudioManager> ().Play ("PlayerDead");
@@ -217,8 +287,9 @@ public class Platformer2DUserControl : MonoBehaviour
 			}
 		} else if (coll.gameObject.CompareTag ("Star")) {
 			bonus = 1000;
+			FindObjectOfType<AudioManager> ().Play ("Bonus");
 			Destroy (coll.gameObject);
-		} else if (coll.gameObject.CompareTag ("Death")) {
+		} else if (!die && coll.gameObject.CompareTag ("Death")) {
 			die = true;
 			FindObjectOfType<AudioManager> ().Stop ("GameSound");
 			FindObjectOfType<AudioManager> ().Play ("PlayerDead");

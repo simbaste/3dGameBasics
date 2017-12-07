@@ -85,10 +85,6 @@ public class MenuScript : MonoBehaviour {
 		scorePanel.gameObject.SetActive (true);
 		menuPanel.gameObject.SetActive (false);
 	}
-
-	public void QuitGame() {
-		Application.Quit ();
-	}
 		
 	void OnGUI() {
 		keyEvent = Event.current;

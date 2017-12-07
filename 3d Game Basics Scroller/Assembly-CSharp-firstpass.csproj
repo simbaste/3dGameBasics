@@ -99,10 +99,10 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data.Sqlite">
- <HintPath>C:/Users/SIMBA/3D_Game_Basics/3dGameBasics/3d Game Basics Scroller/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
+ <HintPath>C:/Users/tynitoon/Desktop/korean/3Dgame/Projet Stéphane/3dGameBasics/3d Game Basics Scroller/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>C:/Users/SIMBA/3D_Game_Basics/3dGameBasics/3d Game Basics Scroller/Assets/Plugins/System.Data.dll</HintPath>
+ <HintPath>C:/Users/tynitoon/Desktop/korean/3Dgame/Projet Stéphane/3dGameBasics/3d Game Basics Scroller/Assets/Plugins/System.Data.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
