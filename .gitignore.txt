@@ -1,1 +1,2 @@
 3dGameBasics/Library/*
+3d\ Game\ Basics\ Scroller/Assets/DB/*
