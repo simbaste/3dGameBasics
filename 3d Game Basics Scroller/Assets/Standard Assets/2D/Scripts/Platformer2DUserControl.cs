@@ -137,6 +137,7 @@ public class Platformer2DUserControl : MonoBehaviour
 				FindObjectOfType<AudioManager> ().Stop ("GameSound");
 				FindObjectOfType<AudioManager> ().Play ("PlayerDead");
 				FindObjectOfType<ScoresManager> ().InsertScore (score);
+				anim.SetInteger ("State", 3);
 			}
 		} else if (tempoDie < 110) {
 			vg -= gravity;
@@ -157,6 +158,9 @@ public class Platformer2DUserControl : MonoBehaviour
 			FindObjectOfType<AudioManager> ().Stop ("GameOver");
 			FindObjectOfType<AudioManager> ().Play ("GameSound");
 
+			vh = 0;
+			anim.SetInteger ("State", 0);
+
 			while (level.Count != 0) {
 				Destroy (level [0]);
 				level.RemoveAt (0);
@@ -171,8 +175,14 @@ public class Platformer2DUserControl : MonoBehaviour
 			die = false;
 			isStart = false;
 			allowJump = false;
-			facingRight = true;
-		
+
+			if (!facingRight) {
+				facingRight = !facingRight;
+				Vector3 tmpScale = transform.localScale;
+				tmpScale.x *= -1;
+				transform.localScale = tmpScale;
+			}
+
 			GameObject tmp;
 			Vector3 vec = starIcon.transform.localScale;
 			vec.x = 0;
