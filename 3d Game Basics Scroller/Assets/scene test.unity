@@ -372,8 +372,8 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Explosion
     clip: {fileID: 8300000, guid: e52e2b2c11d1033478c091697af4c522, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 0.39
+    pitch: 0.73
     loop: 0
     source: {fileID: 0}
   - name: GameSound
@@ -2489,7 +2489,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1184754578}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1842045278}
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1184754578

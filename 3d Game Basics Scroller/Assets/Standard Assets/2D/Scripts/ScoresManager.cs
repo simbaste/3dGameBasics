@@ -70,7 +70,7 @@ public class ScoresManager : MonoBehaviour {
 
 			using (IDbCommand dbCmd = dbConnection.CreateCommand()) {
 				string sqlQuery = string.Format("INSERT INTO Scores(Score) VALUES({0})", newScore);
-				Debug.Log ("sqlQuery = " + sqlQuery);
+				Debug.Log (">>sqlQuery = " + sqlQuery);
 				sqlQuery = "INSERT INTO Scores(Score) VALUES("+newScore+")";		
 				Debug.Log ("sqlQuery = " + sqlQuery);
 				dbCmd.CommandText = sqlQuery;
