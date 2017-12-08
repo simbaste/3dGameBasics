@@ -175,6 +175,7 @@ public class Platformer2DUserControl : MonoBehaviour
 			die = false;
 			isStart = false;
 			allowJump = false;
+			scrollSpeed = 0.025f;
 
 			if (!facingRight) {
 				facingRight = !facingRight;
