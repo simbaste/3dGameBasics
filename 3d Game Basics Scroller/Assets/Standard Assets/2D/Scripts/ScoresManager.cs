@@ -11,8 +11,10 @@ public class ScoresManager : MonoBehaviour {
 
 	private String connectionString;
 
+	private bool isActive;
 	private List<Score> Scores = new List<Score>();
 	Transform scorePanel;
+
 
 	public GameObject scorePrefab;
 	public Transform scoreParent;
@@ -37,13 +39,22 @@ public class ScoresManager : MonoBehaviour {
 			}
 		}
 		Debug.Log (connectionString);
+		isActive = scorePanel.gameObject.activeSelf;
+		isActive = false;
 		ShowScores ();
 		
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
+
+		if (isActive != scorePanel.gameObject.active) {
+			foreach (RectTransform child in scorePanel.GetChild(2).GetChild(0)) {
+				Destroy ((child as Transform).gameObject);
+			}
+			ShowScores ();
+			isActive = scorePanel.gameObject.activeSelf;
+		}
 	}
 
 	private void GetScore() {
