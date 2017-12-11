@@ -39,6 +39,7 @@ public class Platformer2DUserControl : MonoBehaviour
 
     private void Awake()
     {
+		Application.targetFrameRate = 60;
 		spikeX = spikes.transform.position;
 		playerX = player.transform.position;
 		GameObject tmp;
@@ -86,7 +87,7 @@ public class Platformer2DUserControl : MonoBehaviour
 				}
 				if (!spike) {
 					Vector3 vec = spikes.transform.position;
-					vec.x += 0.01f;
+					vec.x += 0.03f;
 					spikes.transform.position = vec;
 					if (vec.x >= -1.0f) {
 						spike = true;
@@ -121,10 +122,12 @@ public class Platformer2DUserControl : MonoBehaviour
 				if (!isStart) {
 					isStart	= true;
 				}
-				anim.SetInteger ("State", 1);
+				if (allowJump)
+					anim.SetInteger ("State", 1);
 			} else {
 				vh = 0;
-				anim.SetInteger ("State", 0);
+				if (allowJump)
+					anim.SetInteger ("State", 0);
 			}
 			if (Input.GetKey (GameManager.GM.jump) && allowJump) {
 				vg = 10;
@@ -133,11 +136,11 @@ public class Platformer2DUserControl : MonoBehaviour
 			vg -= gravity;
 			player.velocity = new Vector2 (vh * speed, vg);
 			if (player.position.y <= -10) {
+				anim.SetInteger ("State", 3);
 				die = true;
 				FindObjectOfType<AudioManager> ().Stop ("GameSound");
 				FindObjectOfType<AudioManager> ().Play ("PlayerDead");
 				FindObjectOfType<ScoresManager> ().InsertScore (score);
-				anim.SetInteger ("State", 3);
 			}
 		} else if (tempoDie < 110) {
 			vg -= gravity;
@@ -175,6 +178,7 @@ public class Platformer2DUserControl : MonoBehaviour
 			die = false;
 			isStart = false;
 			allowJump = false;
+			bonus = 0;
 			scrollSpeed = 0.025f;
 
 			if (!facingRight) {
@@ -269,7 +273,7 @@ public class Platformer2DUserControl : MonoBehaviour
 		}
 	}
 
-	void OnCollisionStay2D(Collision2D coll)
+	void OnCollisionEnter2D(Collision2D coll)
 	{
 		if (coll.gameObject.CompareTag ("Ground")) {
 			vg = 0;
@@ -290,22 +294,32 @@ public class Platformer2DUserControl : MonoBehaviour
 				FindObjectOfType<AudioManager> ().Play ("Explosion");
 				Destroy (coll.gameObject);
 			} else if (!die) {
+				anim.SetInteger ("State", 3);
 				die = true;
 				FindObjectOfType<AudioManager> ().Stop ("GameSound");
 				FindObjectOfType<AudioManager> ().Play ("PlayerDead");
 				FindObjectOfType<ScoresManager> ().InsertScore (score);
-				anim.SetInteger ("State", 3);
 			}
 		} else if (coll.gameObject.CompareTag ("Star")) {
 			bonus = 1000;
 			FindObjectOfType<AudioManager> ().Play ("Bonus");
 			Destroy (coll.gameObject);
 		} else if (!die && coll.gameObject.CompareTag ("Death")) {
+			anim.SetInteger ("State", 3);
 			die = true;
 			FindObjectOfType<AudioManager> ().Stop ("GameSound");
 			FindObjectOfType<AudioManager> ().Play ("PlayerDead");
 			FindObjectOfType<ScoresManager> ().InsertScore (score);
-			anim.SetInteger ("State", 3);
+		}
+	}
+
+	void OnCollisionStay2D(Collision2D coll)
+	{
+		if (coll.gameObject.CompareTag ("Ground")) {
+			vg = 0;
+			allowJump = true;
+		} else if (coll.gameObject.CompareTag ("Wall")) {
+			allowJump = true;
 		}
 	}
 }
