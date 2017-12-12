@@ -28,12 +28,8 @@ public class MenuScript : MonoBehaviour {
 			FindObjectOfType<AudioManager> ().Stop ("GameSound");
 		}
 
-		for (int i = 0; i < 5; i++) {
-			if (optionsPanel.GetChild (i).name == "ForwardKey") {
-				optionsPanel.GetChild (i).GetComponentInChildren<Text> ().text = GameManager.GM.forward.ToString ();
-			} else if (optionsPanel.GetChild (i).name == "BackwardKey") {
-				optionsPanel.GetChild (i).GetComponentInChildren<Text> ().text = GameManager.GM.backward.ToString ();
-			} else if (optionsPanel.GetChild (i).name == "LeftKey") {
+		for (int i = 0; i < 3; i++) {
+			if (optionsPanel.GetChild (i).name == "LeftKey") {
 				optionsPanel.GetChild (i).GetComponentInChildren<Text> ().text = GameManager.GM.left.ToString ();
 			} else if (optionsPanel.GetChild (i).name == "RightKey") {
 				optionsPanel.GetChild (i).GetComponentInChildren<Text> ().text = GameManager.GM.right.ToString ();
@@ -120,16 +116,6 @@ public class MenuScript : MonoBehaviour {
 		yield return WaitForKey();
 
 		switch (keyName) {
-		case "forward":
-			GameManager.GM.forward = newKey;
-			buttonText.text = GameManager.GM.forward.ToString ();
-			PlayerPrefs.SetString ("forwardKey", GameManager.GM.forward.ToString ());
-			break;
-		case "backward":
-			GameManager.GM.backward = newKey;
-			buttonText.text = GameManager.GM.backward.ToString ();
-			PlayerPrefs.SetString ("backwardKey", GameManager.GM.backward.ToString ());
-			break;
 		case "left":
 			GameManager.GM.left = newKey;
 			buttonText.text = GameManager.GM.left.ToString ();
