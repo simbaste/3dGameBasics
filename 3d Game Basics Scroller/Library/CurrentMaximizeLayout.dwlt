@@ -21,8 +21,8 @@ MonoBehaviour:
     y: 30
     width: 1536
     height: 731
-  m_MinSize: {x: 611, y: 492}
-  m_MaxSize: {x: 18006, y: 14042}
+  m_MinSize: {x: 613, y: 492}
+  m_MaxSize: {x: 18008, y: 14042}
   vertical: 0
   controlID: 108
 --- !u!114 &2
@@ -49,8 +49,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 19
-    width: 1391
-    height: 950
+    width: 1023
+    height: 710
   m_MaximizeOnPlay: 1
   m_Gizmos: 0
   m_Stats: 0
@@ -59,10 +59,10 @@ MonoBehaviour:
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
-    m_HBaseRangeMin: -695.5
-    m_HBaseRangeMax: 695.5
-    m_VBaseRangeMin: -466.5
-    m_VBaseRangeMax: 466.5
+    m_HBaseRangeMin: -511.5
+    m_HBaseRangeMax: 511.5
+    m_VBaseRangeMin: -346.5
+    m_VBaseRangeMax: 346.5
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -79,25 +79,25 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 17
-      width: 1391
-      height: 933
+      width: 1023
+      height: 693
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 695.5, y: 466.5}
+    m_Translation: {x: 511.5, y: 346.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -695.5
-      y: -466.5
-      width: 1391
-      height: 933
+      x: -511.5
+      y: -346.5
+      width: 1023
+      height: 693
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
-  m_LastWindowPixelSize: {x: 1391, y: 950}
+  m_LastWindowPixelSize: {x: 1023, y: 710}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000100000100
@@ -270,8 +270,8 @@ MonoBehaviour:
     y: 0
     width: 234
     height: 368
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 221}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 8}
   m_Panes:
   - {fileID: 8}
@@ -308,7 +308,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 32f6ffff00000000
+    m_ExpandedIDs: 48e1ffff0ae2ffff18e3ffff3cedfffffaedffff08efffff1afcffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -393,8 +393,8 @@ MonoBehaviour:
     y: 368
     width: 234
     height: 363
-  m_MinSize: {x: 230, y: 250}
-  m_MaxSize: {x: 10000, y: 10000}
+  m_MinSize: {x: 234, y: 271}
+  m_MaxSize: {x: 10004, y: 10021}
   m_ActualView: {fileID: 11}
   m_Panes:
   - {fileID: 11}
@@ -438,19 +438,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets
+    - Assets/Plugins
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Plugins
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\SIMBA\3D_Game_Basics\3DGame\3d Game Basics Scroller
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 9c2b0000
-    m_LastClickedID: 11164
-    m_ExpandedIDs: 000000009c2b00005e2d0000f42d0000a42f0000b02f00000631000000ca9a3bffffff7f
+    m_SelectedIDs: b02a0000
+    m_LastClickedID: 10928
+    m_ExpandedIDs: 000000004c2600002c280000e0280000ba2a0000c82a0000642c000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -478,7 +478,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000009c2b00005e2d0000f42d0000a42f0000b02f000006310000
+    m_ExpandedIDs: 000000004c2600002c280000e0280000ba2a0000c82a0000642c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -505,7 +505,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: cc1b0000502900007a31000026280000ecc6fdff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -530,7 +530,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 434}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 64
   m_DirectoriesAreaWidth: 110
 --- !u!114 &12
@@ -551,8 +551,8 @@ MonoBehaviour:
     y: 0
     width: 277
     height: 731
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 71}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
